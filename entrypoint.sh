@@ -1,14 +1,18 @@
 #!/bin/sh
-# Xvfb :99 -screen 0 1024x768x16 &
+Xvfb :99 -screen 0 1024x768x16 &
 
 which google-chrome
 
 google-chrome-stable --version
 
+google-chrome-stable  --no-sandbox --disable-dev-shm-usage --disable-gpu --no-first-run --disable-fre --no-default-browser-check --remote-debugging-port=9222 &
+
+
 #unzip /UserData.zip -d /target
 #cp -r "/target/User Data" /target/UserData
 
 #ls -l /target/UserData
+
 
 echo "Current user: $(whoami) (UID: $(id -u))"
 
