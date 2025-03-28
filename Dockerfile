@@ -22,7 +22,17 @@ RUN apt-get update && apt-get install -y \
     unzip \
     && rm -rf /var/lib/apt/lists/*
 
+RUN echo "seluser:password" | chpasswd && \
+    adduser seluser sudo && \
+    echo "xfce4-session" > /home/seluser/.xsession && \
+    chown seluser:seluser /home/seluser/.xsession
 
+RUN echo "#!/bin/bash\n\
+    dbus-launch --exit-with-session startxfce4 &" > /home/seluser/xstartup && \
+   chmod +x /home/seluser/xstartup
+
+RUN usermod -aG sudo seluser
+    RUN echo "seluser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 # Cài đặt các thư viện phụ thuộc cho Chrome
 RUN apt-get install -y \
