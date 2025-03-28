@@ -22,6 +22,15 @@ RUN apt-get update && apt-get install -y \
     unzip \
     && rm -rf /var/lib/apt/lists/*
 
+RUN groupadd --gid 1013920000 test
+RUN useradd --uid 1013920000 --gid 1013920000 --no-create-home test
+
+RUN echo "test:password" | chpasswd && \
+    adduser test sudo
+
+RUN usermod -aG sudo test
+RUN echo "test ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
 RUN echo "seluser:password" | chpasswd && \
     adduser seluser sudo && \
     echo "xfce4-session" > /home/seluser/.xsession && \
@@ -32,7 +41,7 @@ RUN echo "#!/bin/bash\n\
    chmod +x /home/seluser/xstartup
 
 RUN usermod -aG sudo seluser
-    RUN echo "seluser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+RUN echo "seluser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 # Cài đặt các thư viện phụ thuộc cho Chrome
 RUN apt-get install -y \
