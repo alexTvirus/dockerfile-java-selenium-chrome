@@ -116,8 +116,10 @@
         <script type="text/javascript">
             var stompClient = null;
             function connect() {
-                var url = (window.location.protocol === "https:" ? "https:" : "http:") + "//" + window.location.host + window.location.pathname;
-                var socket = new SockJS(url + '/hello');
+                // var url = (window.location.protocol === "https:" ? "https:" : "http:") + "//" + window.location.host + window.location.pathname;
+                var url = (window.location.protocol === "https:" ? "wss:" : "ws:") + "//" + window.location.host + window.location.pathname;
+                const socket = new WebSocket(`${url}/hello`);
+                // var socket = new SockJS(url + '/hello');
                 stompClient = Stomp.over(socket);
                 stompClient.debug = null;
                 stompClient.connect({}, function (frame) {
